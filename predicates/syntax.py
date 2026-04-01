@@ -115,6 +115,11 @@ class Term:
         """
         # Task 7.1
 
+        if is_constant(self.root) or is_variable(self.root):
+            return self.root
+        return self.root + '(' + ','.join(map(str, self.arguments)) + ')'
+
+
     def __eq__(self, other: object) -> bool:
         """Compares the current term with the given one.
 
@@ -381,6 +386,17 @@ class Formula:
             The standard string representation of the current formula.
         """
         # Task 7.2
+
+        if is_equality(self.root):
+            return str(self.arguments[0]) + '=' + str(self.arguments[1])
+        if is_relation(self.root):
+            return self.root + '(' + ','.join(map(str, self.arguments)) + ')'
+        if is_unary(self.root):
+            return '~' + str(self.first)
+        if is_binary(self.root):
+            return '(' + str(self.first) + self.root + str(self.second) + ')'
+        return self.root + self.variable + '[' + str(self.statement) + ']'
+
 
     def __eq__(self, other: object) -> bool:
         """Compares the current formula with the given one.
